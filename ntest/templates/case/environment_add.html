@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+添加调试环境
+{% endblock %}
+
+{% block content %}
+<div class="maincontent col-lg-11">
+    <form method="post" action="/case/environment/" role="form">
+        <div class="form-group">
+            <label>环境名称</label>
+            <input id="environment_name" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>服务端URL</label>
+            <input id="environment_url" type="text" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">保存</button>
+    </form>
+</div>
+{% endblock %}
+
+
+

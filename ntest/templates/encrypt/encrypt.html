@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}
+加解密页面
+{% endblock %}
+
+
+{% block content %}
+        <div class="maincontent col-lg-11">
+            <form role="form" method="post" id="form">
+                <div class="form-group">
+                    <label>需要加密解密的参数</label>
+                    <textarea id="content" rows="5" class="form-control" placeholder="请输入需要加解密的参数"></textarea>
+                    <br>
+                    <input type="text" id="token" placeholder="请输入tk" class="form-control">
+                    <br>
+                    <!--<button type="submit" class="btn btn-primary" onclick="encrypt(this)">加密</button>-->
+                    <!--<button type="submit" class="btn btn-primary" onclick="decrypt(this)">解密</button>-->
+                    <input type="button" value="加密" class="btn btn-primary" onclick="encrypt()">
+                    <input type="button" value="解密" class="btn btn-primary" onclick="decrypt()">
+                </div>
+                {% csrf_token %}
+            </form>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <td>看下面那一行会显示结果</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td id="result_content">看这边</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+{% endblock %}
+
+
+{% block script %}
+<script>
+    function encrypt() {
+
+        var content = $("#content").val();
+        var token = $("#token").val();
+
+        $.ajax({
+            type:'post',
+            url:'/encrypt/content/',
+            data:{
+                'content':content,
+                'tk':token,
+                'CH_key':'encrypt_key'
+            },
+            success:function (rq) {
+                $("#result_content").html(rq)
+            },
+            error:function (rq) {
+                $("#result_content").html(rq)
+            }
+        });
+    }
+
+    function decrypt() {
+        var content = $("#content").val();
+        var token = $("#token").val();
+        $.ajax({
+            type:'post',
+            url:'/encrypt/content/',
+            data:{
+                'content':content,
+                'tk':token,
+                'CH_key':'decrypt_key'
+            },
+            success:function (rq) {
+                $("#result_content").html(rq)
+            },
+            error:function (rq) {
+                $("#result_content").html(rq)
+            }
+        });
+    }
+</script>
+{% endblock %}

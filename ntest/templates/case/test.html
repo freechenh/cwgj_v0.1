@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}
+运行用例
+{% endblock %}
+
+
+{% block content %}
+        <div class="maincontent col-lg-11">
+            <div class="panel">
+                <div class="panel-heading">
+                   <a href="/index/" class="btn btn-primary">添加</a>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>请求url</th>
+                            <th>接口名</th>
+                            <th>请求头</th>
+                            <!--<th>content</th> -->
+                            <th>token</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for case in case_list %}
+                        <tr>
+                            <td>{{ case.case_id }}</td>
+                            <td>{{ case.url }}</td>
+                            <td>{{ case.case_name }}</td>
+                            <td>{{ case.header_parameter }}</td>
+                            <!-- <td>{{ case.content_parameter }}</td> -->
+                            <td>{{ case.tk_parameter }}</td>
+                            <td>
+                                <button class="btn btn-primary" onclick="run_case(this)">运行</button>
+                                <a href="/sign_update?sign_id={{ sign.sign_id }}" class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                                <a href="/sign_delete?sign_id={{ sign.sign_id }}" class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>调试结果</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td id="case_result"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+
+
+{% block script %}
+<script>
+    function run_case(obj) {
+        //var case_id = obj.parentNode.parentNode.childNodes[0].innerText;   //获取当前标签的父节点，的父节点，的第一个子节点的文本值
+        var case_id = obj.parentNode.parentNode.children[0].innerText;  //获取当前标签的父节点，的父节点，的第二个子节点的值
+//        var case_header = obj.parentNode.parentNode.children[2].innerText;
+//        var case_content = obj.parentNode.parentNode.children[3].innerText;
+
+        $.ajax({
+            type:'post',
+            url:'/case/run/',
+            data:{
+                "case_id":case_id
+//                "type":"query_carpark"
+//                "header":case_header,
+//                "content":case_content,
+            },
+            success : function (rq) {
+                $("#case_result").html(rq)
+            },
+            error : function () {
+                $("#case_result").val("接口测试失败")
+            }
+        });
+    }
+    
+    $(document).ready(function () {
+        $("#nav1 li a").each(function(){
+             $this = $(this);
+            if($this[0].href==String(window.location.href)){
+                 //$this[0].parent().addClass("selected");
+                 console.log($this[0].href);
+                 $($this[0]).parent().addClass('active');
+                 //$($this[0]).parent().parent().parent().parent().addClass('active');
+                 $($this[0]).parent().parent().parent().attr('aria-expanded',true);
+                 $($this[0]).parent().parent().parent().addClass('in')
+                 $($($this[0]).parent().parent().parent().parent().parent().children('li')[0]).removeClass('active');
+             }
+         });
+    })
+</script>
+{% endblock %}

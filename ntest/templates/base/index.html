@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}
+请添加用例
+{% endblock %}
+
+{% block content %}
+        <div class="maincontent col-lg-11">
+            <form role="form" method="post" action="/case/test/">
+                <div class="form-group">
+                    <label for="case_name">接口名</label>
+                    <input name="case_name" type="text" class="form-control" id="case_name" placeholder="请输入接口名">
+                </div>
+                <div class="form-group">
+                    <label for="token">token</label>
+                    <input name="token" type="text" class="form-control" id="token" placeholder="请输入token">
+                </div>
+                <div class="form-group">
+                    <label for="header">请求头</label>
+                    <input name="header" type="text" class="form-control" id="header" placeholder="请输入请求头">
+                </div>
+                <div class="form-group">
+                    <label for="url">URL</label>
+                    <input name="url" type="text" class="form-control" id="url" placeholder="请输入URL">
+                </div>
+                <div class="form-group">
+                    <label for="content">content</label>
+                    <input name="content" type="text" class="form-control" id="content" placeholder="请输入参数">
+                </div>
+                <button type="submit" class="btn btn-primary">保存</button>
+                {% csrf_token %}
+            </form>
+        </div>
+{% endblock %}

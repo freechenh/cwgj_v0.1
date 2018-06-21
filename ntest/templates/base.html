@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- 引入jQuery -->
+    <script type="text/javascript" src="/static/bootstrap/jq/jquery.min.js/"></script>
+    <script src="https://code.jquery.com/jquery.js"></script>
+
+    <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <!-- 引入 Bootstrap -->
+
+    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.js/"></script>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <title>{% block title %}用例管理页面{% endblock %}</title>
+</head>
+<body>
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse1">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">好烦啊</a>
+        </div>
+        <div class="collapse navbar-collapse" id="col1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-1">
+            <ul id="ul1" class="nav nav-pills nav-stacked">
+                <li class=""><a href="/index/"><span>添加用例</span></a> </li>
+                <li class=""><a href="/encrypt/page/"><span>加解密参数</span></a> </li>
+                <li class="">
+                    <a href="#baseinfo" data-toggle="collapse"  class="collapsed">基础信息<span class="caret"></span> </a>
+                    <div id="baseinfo" class="collapse">
+                        <ul id="ul2" class="nav nav-pills nav-stacked">
+                            <!--<li><a href="/base/project/" class="">项目管理</a></li>-->
+                            <!--<li class="divider"></li>-->
+                            <li><a href="/case/environment/" id="collapse_1" class=""><small>调试环境管理</small></a></li>
+                            <li><a href="/case/test/" id="collapse_2" class=""><small>接口管理</small></a></li>
+                            <!--<li><a href="/base/case/" class="">用例管理</a></li>-->
+                            <!--<li><a href="/base/plan/" class="">测试计划管理</a></li>-->
+                        </ul>
+                    </div>
+                </li>
+                <li class=""><a href="#"><span>请不要期待</span></a> </li>
+            </ul>
+        </div>
+        {% block content %}
+        {% endblock %}
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#ul1 li a').each(function () {
+            //console.log($(this).attr('href'));
+            if ($(this).attr('href') == window.location.pathname){
+                if($(this).attr('href') == '/case/environment/' || $(this).attr('href') == '/case/test/'){
+                    $(this).parent().parent().parent().prev().removeClass('collapsed');
+                    $(this).parent().parent().parent().removeClass('collapse');
+                    $(this).parent().parent().parent().addClass('collapse in');
+                    $(this).parent().addClass('active');
+                }
+                $(this).parent().addClass('active');
+            }
+        })
+    });
+    //console.log($('#ul2 a').attr('href'));
+</script>
+{% block script %}
+{% endblock %}
+</body>
+</html>
